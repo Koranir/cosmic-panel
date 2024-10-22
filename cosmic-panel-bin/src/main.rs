@@ -124,6 +124,7 @@ fn main() -> Result<()> {
                             config,
                             &state.client_state.compositor_state,
                             state.client_state.fractional_scaling_manager.as_ref(),
+                            state.client_state.overlap_notification_manager.as_ref(),
                             state.client_state.viewporter_state.as_ref(),
                             &mut state.client_state.layer_state,
                             &state.client_state.queue_handle,

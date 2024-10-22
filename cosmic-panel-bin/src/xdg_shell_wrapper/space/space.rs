@@ -34,12 +34,7 @@ use crate::{
     xdg_shell_wrapper::{
         client::handlers::{
             wp_fractional_scaling::FractionalScalingManager, wp_viewporter::ViewporterState,
-        },
-        client_state::ClientFocus,
-        config::WrapperConfig,
-        server_state::ServerPointerFocus,
-        shared_state::GlobalState,
-        wp_security_context::SecurityContextManager,
+        }, client_state::ClientFocus, config::WrapperConfig, overlap::OverlapNotifyManager, server_state::ServerPointerFocus, shared_state::GlobalState, wp_security_context::SecurityContextManager
     },
 };
 
@@ -116,6 +111,7 @@ pub trait WrapperSpace {
         &mut self,
         compositor_state: &CompositorState,
         fractional_scale_manager: Option<&FractionalScalingManager>,
+        overlap_notify_manager: Option<&OverlapNotifyManager>,
         security_context_manager: Option<SecurityContextManager>,
         viewport: Option<&ViewporterState>,
         layer_state: &mut LayerShell,
@@ -128,6 +124,7 @@ pub trait WrapperSpace {
         &mut self,
         compositor_state: &CompositorState,
         fractional_scale_manager: Option<&FractionalScalingManager>,
+        overlap_notify_manager: Option<&OverlapNotifyManager>,
         viewport: Option<&ViewporterState>,
         layer_state: &mut LayerShell,
         conn: &Connection,

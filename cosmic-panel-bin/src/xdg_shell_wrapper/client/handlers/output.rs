@@ -43,6 +43,7 @@ impl OutputHandler for GlobalState {
                     layer_state,
                     viewporter_state,
                     fractional_scaling_manager,
+                    overlap_notification_manager,
                     ..
                 },
             server_state: ServerState { display_handle, .. },
@@ -64,6 +65,7 @@ impl OutputHandler for GlobalState {
             if let Err(err) = space.new_output(
                 compositor_state,
                 fractional_scaling_manager.as_ref(),
+                overlap_notification_manager.as_ref(),
                 viewporter_state.as_ref(),
                 layer_state,
                 conn,
@@ -94,6 +96,7 @@ impl OutputHandler for GlobalState {
                     compositor_state,
                     layer_state,
                     fractional_scaling_manager,
+                    overlap_notification_manager,
                     viewporter_state,
                     ..
                 },
@@ -120,6 +123,7 @@ impl OutputHandler for GlobalState {
                     if let Err(err) = space.new_output(
                         compositor_state,
                         fractional_scaling_manager.as_ref(),
+                        overlap_notification_manager.as_ref(),
                         viewporter_state.as_ref(),
                         layer_state,
                         conn,

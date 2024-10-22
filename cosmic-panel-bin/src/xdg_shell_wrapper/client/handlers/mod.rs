@@ -22,6 +22,7 @@ pub mod seat;
 pub mod shell;
 pub mod toplevel;
 pub mod workspace;
+pub mod overlap;
 pub mod wp_fractional_scaling;
 pub mod wp_security_context;
 pub mod wp_viewporter;

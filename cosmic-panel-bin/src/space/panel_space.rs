@@ -21,7 +21,7 @@ use crate::{
         wp_security_context::SecurityContextManager,
     },
 };
-use cctk::wayland_client::Connection;
+use cctk::{cosmic_protocols::overlap_notify::v1::client::{zcosmic_overlap_notification_v1::ZcosmicOverlapNotificationV1, zcosmic_overlap_notify_v1::ZcosmicOverlapNotifyV1}, wayland_client::Connection};
 
 use cosmic::iced::id;
 use launch_pad::process::Process;
@@ -262,6 +262,7 @@ pub struct PanelSpace {
     pub s_display: Option<DisplayHandle>,
     pub layer: Option<LayerSurface>,
     pub layer_fractional_scale: Option<WpFractionalScaleV1>,
+    pub layer_overlap_notify: Option<ZcosmicOverlapNotificationV1>,
     pub layer_viewport: Option<WpViewport>,
     pub popups: Vec<WrapperPopup>,
     pub start_instant: Instant,
@@ -326,6 +327,7 @@ impl PanelSpace {
             c_display: Some(conn.display().clone()),
             layer: Default::default(),
             layer_fractional_scale: Default::default(),
+            layer_overlap_notify: Default::default(),
             layer_viewport: Default::default(),
             egl_surface: Default::default(),
             popups: Default::default(),

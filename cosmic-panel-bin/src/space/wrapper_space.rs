@@ -13,16 +13,9 @@ use crate::{
     space::panel_space::ClientShrinkSize,
     space_container::SpaceContainer,
     xdg_shell_wrapper::{
-        client_state::ClientFocus,
-        server_state::ServerPointerFocus,
-        shared_state::GlobalState,
-        space::{
+        client_state::ClientFocus, overlap::OverlapNotifyManager, server_state::ServerPointerFocus, shared_state::GlobalState, space::{
             PanelPopup, SpaceEvent, Visibility, WrapperPopup, WrapperPopupState, WrapperSpace,
-        },
-        util::get_client_sock,
-        wp_fractional_scaling::FractionalScalingManager,
-        wp_security_context::{SecurityContext, SecurityContextManager},
-        wp_viewporter::ViewporterState,
+        }, util::get_client_sock, wp_fractional_scaling::FractionalScalingManager, wp_security_context::{SecurityContext, SecurityContextManager}, wp_viewporter::ViewporterState
     },
 };
 use anyhow::bail;
@@ -798,6 +791,7 @@ impl WrapperSpace for PanelSpace {
         &mut self,
         _compositor_state: &CompositorState,
         _fractional_scale_manager: Option<&FractionalScalingManager>,
+        _overlap_notify_manager: Option<&OverlapNotifyManager>,
         _security_context_manager: Option<SecurityContextManager>,
         _viewport: Option<&ViewporterState>,
         _layer_state: &mut LayerShell,
@@ -1281,6 +1275,7 @@ impl WrapperSpace for PanelSpace {
         &mut self,
         compositor_state: &sctk::compositor::CompositorState,
         fractional_scale_manager: Option<&FractionalScalingManager>,
+        overlap_notify_manager: Option<&OverlapNotifyManager>,
         viewport: Option<&ViewporterState>,
         layer_state: &mut LayerShell,
         _conn: &sctk::reexports::client::Connection,
@@ -1353,6 +1348,11 @@ impl WrapperSpace for PanelSpace {
         let fractional_scale =
             fractional_scale_manager.map(|f| f.fractional_scaling(client_surface.wl_surface(), qh));
 
+        let overlap_notify = match client_surface.kind() {
+            sctk::shell::wlr_layer::SurfaceKind::Wlr(zwlr_layer_surface_v1) => overlap_notify_manager.map(|f| f.register_layer_shell(zwlr_layer_surface_v1, qh)),
+            _ => unreachable!(),
+        };
+
         let viewport = viewport.map(|v| v.get_viewport(client_surface.wl_surface(), qh));
 
         client_surface.commit();
@@ -1367,6 +1367,7 @@ impl WrapperSpace for PanelSpace {
             izip!(c_output.into_iter(), s_output.into_iter(), output_info.as_ref().cloned()).next();
         self.layer = Some(client_surface);
         self.layer_fractional_scale = fractional_scale;
+        self.layer_overlap_notify = overlap_notify;
         self.layer_viewport = viewport;
         self.dimensions = dimensions;
         self.space_event = next_render_event;

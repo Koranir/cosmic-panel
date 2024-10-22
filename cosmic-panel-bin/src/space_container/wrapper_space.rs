@@ -3,13 +3,7 @@ use std::{cell::RefCell, rc::Rc, time::Instant};
 use crate::{
     iced::elements::target::SpaceTarget,
     xdg_shell_wrapper::{
-        client_state::{ClientFocus, FocusStatus},
-        server_state::ServerPointerFocus,
-        shared_state::GlobalState,
-        space::{Visibility, WrapperSpace},
-        wp_fractional_scaling::FractionalScalingManager,
-        wp_security_context::SecurityContextManager,
-        wp_viewporter::ViewporterState,
+        client_state::{ClientFocus, FocusStatus}, overlap::OverlapNotifyManager, server_state::ServerPointerFocus, shared_state::GlobalState, space::{Visibility, WrapperSpace}, wp_fractional_scaling::FractionalScalingManager, wp_security_context::SecurityContextManager, wp_viewporter::ViewporterState
     },
 };
 use cosmic_panel_config::{CosmicPanelBackground, CosmicPanelContainerConfig, CosmicPanelOuput};
@@ -60,6 +54,7 @@ impl WrapperSpace for SpaceContainer {
         &mut self,
         compositor_state: &CompositorState,
         fractional_scale_manager: Option<&FractionalScalingManager>,
+        overlap_notify_manager: Option<&OverlapNotifyManager>,
         security_context_manager: Option<SecurityContextManager>,
         viewport: Option<&ViewporterState>,
         layer_state: &mut LayerShell,
@@ -103,6 +98,7 @@ impl WrapperSpace for SpaceContainer {
                         s.setup(
                             compositor_state,
                             fractional_scale_manager,
+                            overlap_notify_manager,
                             security_context_manager.clone(),
                             viewport,
                             layer_state,
@@ -115,6 +111,7 @@ impl WrapperSpace for SpaceContainer {
                         let _ = s.new_output(
                             compositor_state,
                             fractional_scale_manager,
+                            overlap_notify_manager,
                             viewport,
                             layer_state,
                             conn,
@@ -136,6 +133,7 @@ impl WrapperSpace for SpaceContainer {
         &mut self,
         compositor_state: &sctk::compositor::CompositorState,
         fractional_scale_manager: Option<&FractionalScalingManager>,
+        overlap_notify_manager: Option<&OverlapNotifyManager>,
         viewport: Option<&ViewporterState>,
         layer_state: &mut LayerShell,
         conn: &sctk::reexports::client::Connection,
@@ -211,6 +209,7 @@ impl WrapperSpace for SpaceContainer {
                             s.setup(
                                 compositor_state,
                                 fractional_scale_manager,
+                                overlap_notify_manager,
                                 self.security_context_manager.clone(),
                                 viewport,
                                 layer_state,
@@ -226,6 +225,7 @@ impl WrapperSpace for SpaceContainer {
                         if s.new_output(
                             compositor_state,
                             fractional_scale_manager,
+                            overlap_notify_manager,
                             viewport,
                             layer_state,
                             conn,
@@ -274,6 +274,7 @@ impl WrapperSpace for SpaceContainer {
                         if s.new_output(
                             compositor_state,
                             fractional_scale_manager,
+                            overlap_notify_manager,
                             viewport,
                             layer_state,
                             conn,

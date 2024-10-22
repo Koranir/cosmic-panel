@@ -76,8 +76,7 @@ use wayland_protocols::wp::{
 };
 
 use super::handlers::{
-    wp_fractional_scaling::FractionalScalingManager, wp_security_context::SecurityContextManager,
-    wp_viewporter::ViewporterState,
+    overlap::OverlapNotifyManager, wp_fractional_scaling::FractionalScalingManager, wp_security_context::SecurityContextManager, wp_viewporter::ViewporterState
 };
 
 #[derive(Debug)]
@@ -153,6 +152,8 @@ pub struct ClientState {
     pub workspace_state: Option<WorkspaceState>,
     /// security context manager
     pub security_context_manager: Option<SecurityContextManager>,
+    /// Overlay notification manager
+    pub overlap_notification_manager: Option<OverlapNotifyManager>,
 
     pub(crate) connection: Connection,
     /// queue handle
@@ -275,6 +276,13 @@ impl ClientState {
             },
             Ok(m) => Some(m),
         };
+        let overlap_notification_manager = match OverlapNotifyManager::new(&globals, &qh) {
+            Err(why) => {
+                error!(?why, "Failed to initialize overlap notification manager");
+                None
+            },
+            Ok(m) => Some(m),
+        };
 
         let client_state = ClientState {
             focused_surface: space.get_client_focused_surface(),
@@ -306,6 +314,7 @@ impl ClientState {
             workspace_state: None,
             security_context_manager,
             delayed_surface_motion: HashMap::new(),
+            overlap_notification_manager
         };
 
         WaylandSource::new(connection, event_queue).insert(loop_handle).unwrap();

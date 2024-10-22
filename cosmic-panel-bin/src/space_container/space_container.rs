@@ -3,15 +3,7 @@ use std::{cell::RefCell, collections::HashMap, rc::Rc, sync::Arc};
 use crate::{
     minimize::MinimizeApplet,
     space::{AppletMsg, PanelColors, PanelSpace},
-    xdg_shell_wrapper,
-    xdg_shell_wrapper::{
-        client_state::ClientFocus,
-        shared_state::GlobalState,
-        space::{Visibility, WrapperSpace},
-        wp_fractional_scaling::FractionalScalingManager,
-        wp_security_context::SecurityContextManager,
-        wp_viewporter::ViewporterState,
-    },
+    xdg_shell_wrapper::{self, client_state::ClientFocus, overlap::OverlapNotifyManager, shared_state::GlobalState, space::{Visibility, WrapperSpace}, wp_fractional_scaling::FractionalScalingManager, wp_security_context::SecurityContextManager, wp_viewporter::ViewporterState},
     PanelCalloopMsg,
 };
 use cctk::{
@@ -211,6 +203,7 @@ impl SpaceContainer {
         mut entry: CosmicPanelConfig,
         compositor_state: &sctk::compositor::CompositorState,
         fractional_scale_manager: Option<&FractionalScalingManager>,
+        overlap_notify_manager: Option<&OverlapNotifyManager>,
         viewport: Option<&ViewporterState>,
         layer_state: &mut LayerShell,
         qh: &QueueHandle<GlobalState>,
@@ -365,6 +358,7 @@ impl SpaceContainer {
                 if let Err(err) = space.new_output(
                     compositor_state,
                     fractional_scale_manager,
+                    overlap_notify_manager,
                     viewport,
                     layer_state,
                     connection,
@@ -453,6 +447,7 @@ impl SpaceContainer {
                 if let Err(err) = space.new_output(
                     compositor_state,
                     fractional_scale_manager,
+                    overlap_notify_manager,
                     viewport,
                     layer_state,
                     connection,

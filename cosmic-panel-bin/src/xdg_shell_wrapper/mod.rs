@@ -16,7 +16,7 @@ use smithay::{
 
 use client::state::ClientState;
 pub use client::{
-    handlers::{wp_fractional_scaling, wp_security_context, wp_viewporter},
+    handlers::{wp_fractional_scaling, wp_security_context, wp_viewporter, overlap},
     state as client_state,
 };
 pub use server::state as server_state;
@@ -54,6 +54,7 @@ pub fn run(
     global_state.space.setup(
         &global_state.client_state.compositor_state,
         global_state.client_state.fractional_scaling_manager.as_ref(),
+        global_state.client_state.overlap_notification_manager.as_ref(),
         global_state.client_state.security_context_manager.clone(),
         global_state.client_state.viewporter_state.as_ref(),
         &mut global_state.client_state.layer_state,
