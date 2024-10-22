@@ -34,7 +34,13 @@ use crate::{
     xdg_shell_wrapper::{
         client::handlers::{
             wp_fractional_scaling::FractionalScalingManager, wp_viewporter::ViewporterState,
-        }, client_state::ClientFocus, config::WrapperConfig, overlap::OverlapNotifyManager, server_state::ServerPointerFocus, shared_state::GlobalState, wp_security_context::SecurityContextManager
+        },
+        client_state::ClientFocus,
+        config::WrapperConfig,
+        overlap::OverlapNotifyManager,
+        server_state::ServerPointerFocus,
+        shared_state::GlobalState,
+        wp_security_context::SecurityContextManager,
     },
 };
 

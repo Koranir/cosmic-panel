@@ -17,12 +17,12 @@ pub mod keyboard;
 pub mod layer_shell;
 /// output helpers
 pub mod output;
+pub mod overlap;
 pub mod pointer;
 pub mod seat;
 pub mod shell;
 pub mod toplevel;
 pub mod workspace;
-pub mod overlap;
 pub mod wp_fractional_scaling;
 pub mod wp_security_context;
 pub mod wp_viewporter;

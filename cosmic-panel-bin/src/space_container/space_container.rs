@@ -3,7 +3,16 @@ use std::{cell::RefCell, collections::HashMap, rc::Rc, sync::Arc};
 use crate::{
     minimize::MinimizeApplet,
     space::{AppletMsg, PanelColors, PanelSpace},
-    xdg_shell_wrapper::{self, client_state::ClientFocus, overlap::OverlapNotifyManager, shared_state::GlobalState, space::{Visibility, WrapperSpace}, wp_fractional_scaling::FractionalScalingManager, wp_security_context::SecurityContextManager, wp_viewporter::ViewporterState},
+    xdg_shell_wrapper::{
+        self,
+        client_state::ClientFocus,
+        overlap::OverlapNotifyManager,
+        shared_state::GlobalState,
+        space::{Visibility, WrapperSpace},
+        wp_fractional_scaling::FractionalScalingManager,
+        wp_security_context::SecurityContextManager,
+        wp_viewporter::ViewporterState,
+    },
     PanelCalloopMsg,
 };
 use cctk::{

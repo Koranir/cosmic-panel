@@ -3,7 +3,14 @@ use std::{cell::RefCell, rc::Rc, time::Instant};
 use crate::{
     iced::elements::target::SpaceTarget,
     xdg_shell_wrapper::{
-        client_state::{ClientFocus, FocusStatus}, overlap::OverlapNotifyManager, server_state::ServerPointerFocus, shared_state::GlobalState, space::{Visibility, WrapperSpace}, wp_fractional_scaling::FractionalScalingManager, wp_security_context::SecurityContextManager, wp_viewporter::ViewporterState
+        client_state::{ClientFocus, FocusStatus},
+        overlap::OverlapNotifyManager,
+        server_state::ServerPointerFocus,
+        shared_state::GlobalState,
+        space::{Visibility, WrapperSpace},
+        wp_fractional_scaling::FractionalScalingManager,
+        wp_security_context::SecurityContextManager,
+        wp_viewporter::ViewporterState,
     },
 };
 use cosmic_panel_config::{CosmicPanelBackground, CosmicPanelContainerConfig, CosmicPanelOuput};

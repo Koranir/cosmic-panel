@@ -1,4 +1,14 @@
-use cctk::{cosmic_protocols::overlap_notify::v1::client::{zcosmic_overlap_notification_v1::ZcosmicOverlapNotificationV1, zcosmic_overlap_notify_v1::{self, ZcosmicOverlapNotifyV1}}, wayland_client::{delegate_dispatch, globals::{BindError, GlobalList}, Dispatch, QueueHandle}};
+use cctk::{
+    cosmic_protocols::overlap_notify::v1::client::{
+        zcosmic_overlap_notification_v1::ZcosmicOverlapNotificationV1,
+        zcosmic_overlap_notify_v1::{self, ZcosmicOverlapNotifyV1},
+    },
+    wayland_client::{
+        delegate_dispatch,
+        globals::{BindError, GlobalList},
+        Dispatch, QueueHandle,
+    },
+};
 use sctk::globals::GlobalData;
 use tracing::debug;
 use wayland_protocols_wlr::layer_shell::v1::client::zwlr_layer_surface_v1::ZwlrLayerSurfaceV1;
@@ -18,7 +28,11 @@ impl OverlapNotifyManager {
         Ok(Self { manager })
     }
 
-    pub fn register_layer_shell(&self, layer_shell: &ZwlrLayerSurfaceV1, qh: &QueueHandle<GlobalState>) -> ZcosmicOverlapNotificationV1 {
+    pub fn register_layer_shell(
+        &self,
+        layer_shell: &ZwlrLayerSurfaceV1,
+        qh: &QueueHandle<GlobalState>,
+    ) -> ZcosmicOverlapNotificationV1 {
         self.manager.notify_on_overlap(layer_shell, qh, ())
     }
 }
@@ -32,7 +46,7 @@ impl Dispatch<ZcosmicOverlapNotifyV1, GlobalData, GlobalState> for OverlapNotify
         _conn: &cctk::wayland_client::Connection,
         _qhandle: &cctk::wayland_client::QueueHandle<GlobalState>,
     ) {
-       // no events to handle
+        // no events to handle
     }
 }
 

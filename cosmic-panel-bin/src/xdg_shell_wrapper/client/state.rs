@@ -76,7 +76,8 @@ use wayland_protocols::wp::{
 };
 
 use super::handlers::{
-    overlap::OverlapNotifyManager, wp_fractional_scaling::FractionalScalingManager, wp_security_context::SecurityContextManager, wp_viewporter::ViewporterState
+    overlap::OverlapNotifyManager, wp_fractional_scaling::FractionalScalingManager,
+    wp_security_context::SecurityContextManager, wp_viewporter::ViewporterState,
 };
 
 #[derive(Debug)]
@@ -314,7 +315,7 @@ impl ClientState {
             workspace_state: None,
             security_context_manager,
             delayed_surface_motion: HashMap::new(),
-            overlap_notification_manager
+            overlap_notification_manager,
         };
 
         WaylandSource::new(connection, event_queue).insert(loop_handle).unwrap();

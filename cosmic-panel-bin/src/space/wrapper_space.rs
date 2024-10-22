@@ -13,9 +13,17 @@ use crate::{
     space::panel_space::ClientShrinkSize,
     space_container::SpaceContainer,
     xdg_shell_wrapper::{
-        client_state::ClientFocus, overlap::OverlapNotifyManager, server_state::ServerPointerFocus, shared_state::GlobalState, space::{
+        client_state::ClientFocus,
+        overlap::OverlapNotifyManager,
+        server_state::ServerPointerFocus,
+        shared_state::GlobalState,
+        space::{
             PanelPopup, SpaceEvent, Visibility, WrapperPopup, WrapperPopupState, WrapperSpace,
-        }, util::get_client_sock, wp_fractional_scaling::FractionalScalingManager, wp_security_context::{SecurityContext, SecurityContextManager}, wp_viewporter::ViewporterState
+        },
+        util::get_client_sock,
+        wp_fractional_scaling::FractionalScalingManager,
+        wp_security_context::{SecurityContext, SecurityContextManager},
+        wp_viewporter::ViewporterState,
     },
 };
 use anyhow::bail;
@@ -624,13 +632,10 @@ impl WrapperSpace for PanelSpace {
                                     return;
                                 };
                                 if let Err(err) = pman
-                                    .update_process_env(
-                                        &key,
-                                        vec![(
-                                            "COSMIC_NOTIFICATIONS".to_string(),
-                                            fd.as_raw_fd().to_string(),
-                                        )],
-                                    )
+                                    .update_process_env(&key, vec![(
+                                        "COSMIC_NOTIFICATIONS".to_string(),
+                                        fd.as_raw_fd().to_string(),
+                                    )])
                                     .await
                                 {
                                     error!("Failed to update process env: {}", err);
@@ -1349,7 +1354,9 @@ impl WrapperSpace for PanelSpace {
             fractional_scale_manager.map(|f| f.fractional_scaling(client_surface.wl_surface(), qh));
 
         let overlap_notify = match client_surface.kind() {
-            sctk::shell::wlr_layer::SurfaceKind::Wlr(zwlr_layer_surface_v1) => overlap_notify_manager.map(|f| f.register_layer_shell(zwlr_layer_surface_v1, qh)),
+            sctk::shell::wlr_layer::SurfaceKind::Wlr(zwlr_layer_surface_v1) => {
+                overlap_notify_manager.map(|f| f.register_layer_shell(zwlr_layer_surface_v1, qh))
+            },
             _ => unreachable!(),
         };
 

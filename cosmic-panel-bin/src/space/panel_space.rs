@@ -21,7 +21,13 @@ use crate::{
         wp_security_context::SecurityContextManager,
     },
 };
-use cctk::{cosmic_protocols::overlap_notify::v1::client::{zcosmic_overlap_notification_v1::ZcosmicOverlapNotificationV1, zcosmic_overlap_notify_v1::ZcosmicOverlapNotifyV1}, wayland_client::Connection};
+use cctk::{
+    cosmic_protocols::overlap_notify::v1::client::{
+        zcosmic_overlap_notification_v1::ZcosmicOverlapNotificationV1,
+        zcosmic_overlap_notify_v1::ZcosmicOverlapNotifyV1,
+    },
+    wayland_client::Connection,
+};
 
 use cosmic::iced::id;
 use launch_pad::process::Process;
@@ -1211,8 +1217,8 @@ impl PanelSpace {
         // return early
         if config.anchor() != self.config.anchor() {
             panic!(
-                "Can't apply anchor changes when orientation changes. Requires re-creation of \
-                     the panel."
+                "Can't apply anchor changes when orientation changes. Requires re-creation of the \
+                 panel."
             );
         }
 
